@@ -1,4 +1,4 @@
-(ns act-ch-01-02)
+(ns act-ch01-02)
 
 ;; Base CO-2 levels
 (def base-co2 382)
