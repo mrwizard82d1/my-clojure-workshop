@@ -1,7 +1,11 @@
 (ns hello-leiningen.core
+  (:require [clojure.string :as str])
   (:gen-class))
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (-> (str/join " " args)
+      (str/replace "melon" "banana")
+      (str/replace "apple" "orange")
+      (println)))
