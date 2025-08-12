@@ -1,0 +1,3 @@
+(ns new-namespace)
+
+(def fruits ["orange" "apple" "melon"])
