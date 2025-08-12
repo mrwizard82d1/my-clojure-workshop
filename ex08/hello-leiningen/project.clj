@@ -8,4 +8,5 @@
   :main ^:skip-aot hello-leiningen.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
-                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
+                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
+             :dev {:dependencies [[com.github.seancorfield/expectations "2.2.214"]]}})
