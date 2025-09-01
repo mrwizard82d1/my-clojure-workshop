@@ -63,3 +63,18 @@ x
 (let [x 3]
   (println x))
 x
+
+;; Remember, `let` bindings **shadow** `def` bindings.
+
+;; The `let` form allows one to create **multiple** let bindings
+(let [x 10
+      y 20]
+  (str "x is " x " and y is " y))
+
+;; Let's combine all the concepts we've learned about bindings.
+(def message "Let's add them all!")
+(let [x (* 10 3)
+      y 20
+      z 100]
+  (println message)
+  (+ x y z))
