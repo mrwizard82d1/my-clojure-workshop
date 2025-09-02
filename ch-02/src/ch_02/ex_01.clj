@@ -96,3 +96,27 @@
         (str/replace s #"\w" (fn [s] (encode-letter s word-count)))))
 (encode "Super secret")
 (encode "Super secret message")
+
+;; And now, for something completely "decoding"
+;;
+
+;; Decode a single letter
+(defn decode-letter
+  [x y]
+  (let [number (Integer/parseInt (subs x 1))
+        letter (-> number
+                   Math/sqrt
+                   (- y)
+                   char)]
+    (str letter)))
+
+;; Now that we can decode a single letter, let's decode the entire message
+(defn decode [s]
+  (let [number-of-words (count (str/split s #" "))]
+    (str/replace s #"\#\d+"
+                 (fn [s]
+                   (decode-letter s number-of-words)))))
+
+;; And now for some tests...
+(encode "If you want to keep a secret, you must also hide it from yourself.")
+(decode *1)
