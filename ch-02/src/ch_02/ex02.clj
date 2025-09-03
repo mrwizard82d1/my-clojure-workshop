@@ -1,4 +1,4 @@
-(ns ch-02.ex-02)
+(ns ch-02.ex02)
 
 ;; How to access and modify simple maps
 ;;

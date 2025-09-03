@@ -1,4 +1,4 @@
-(ns ch-02.ex-01
+(ns ch-02.ex01
   (:require [clojure.string :as str]))
 
 ;; The Obfuscation Machine
