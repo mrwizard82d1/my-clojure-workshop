@@ -156,7 +156,7 @@
 (update-in gemstone-db  [:diamond :stock] dec)
 
 ;; We can use `update-in` again, with `conj` and a `client-id` to
-;; update the `soles` vector. Let's try an example with the diamond
+;; update the `sales` vector. Let's try an example with the diamond
 ;; gem and `client-id` 999.
 (update-in gemstone-db  [:diamond :sales] conj 999)
 
