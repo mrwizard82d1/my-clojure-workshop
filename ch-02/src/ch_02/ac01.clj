@@ -68,3 +68,39 @@
 (drop-table :golfer)
 (insert :golfer {:name "Scheffler" :season 2025 :majors 2} :name)
 (read-db)
+
+(defn insert
+  "Insert `record` in `table` identified by `id-key`.
+
+  - `record` is a hash map containing information to be inserted
+  - `table` is the name of an existing in-memory \"table\"
+  - `id-key` is a key in the `record` that contains data used as a
+     unique index."
+  [table record id-key]
+  (let [db (read-db)
+        db-table (get db table)]
+    (println db)
+    (println db-table)
+    (write-db (if (nil? db-table)
+                (assoc db
+                       table
+                       {:data [record]
+                        :indexes {id-key
+                                  {(id-key record) 0}}})
+                (update db
+                        table
+                        conj
+                        {:data (conj (:data db-table)
+                                     record)
+                         :indexes (assoc-in
+                                   (id-key (:indexes db-table))
+                                   [(id-key record)]
+                                   (inc (apply max (vals (get-in
+                                                          db-table
+                                                          [:indexes id-key])))))})))))
+(drop-table :golfer)
+(insert :golfer {:name "Scheffler" :season 2025 :majors 2} :name)
+(read-db)
+(inc (apply max (vals (get-in (read-db) [:golfer :indexes :name]))))
+(insert :golfer {:name "McIlroy" :season 2025 :majors 1} :name)
+(println (read-db))
