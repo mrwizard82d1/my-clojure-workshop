@@ -1,4 +1,4 @@
-(ns ch-02.ac01)
+(ns ch-02.ac01a)
 
 ;; Creating a simple, in-memory database
 ;; Chapter 02 Activity 01
