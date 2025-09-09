@@ -1,5 +1,5 @@
 (ns ch-03.ac-01
-  (:require clojure.math)
+  (:require [clojure.math :as math])
   (:import java.lang.Math))
 
 ;; Building a Distance and Cost Calculator
@@ -68,3 +68,39 @@
 
 (euclidean-distance-approx [(:lat paris) (:lon paris)]
                            [(:lat bordeaux) (:lon bordeaux)])
+
+;; Define the cost functions for vehicles
+(def vehicle-cost-fns
+  {:sporche (partial * 0.12 1.3)
+   :tayato (partial * 0.07 1.3)
+   :sleta (partial * 0.2 0.1)})
+
+;; Let's define a mulitmethod called `itinerary`.
+(defmulti itinerary :transport)
+
+;; Let's define the multimethod for `:walking`.
+(defmethod itinerary :walking
+  [{:keys [:from :to]}]
+  (let [walking-distance (distance from to)
+        duration (/ walking-distance walking-speed)]
+    {:cost 0 :distance walking-distance :duration duration}))
+
+;; And a multimethod, `:driving`.
+(defmethod itinerary :driving
+  [{:keys [:from :to :vehicle]}]
+  (let [driving-distance (distance from to)
+        cost ((vehicle vehicle-cost-fns) driving-distance)
+        duration (/ driving-distance driving-speed)]
+    {:cost cost :distance driving-distance :duration duration}))
+
+(itinerary {:from paris :to bordeaux :transport :walking})
+(itinerary {:from paris :to bordeaux :transport :driving :vehicle :tayato})
+
+(def london {:lat 51.507351 :lon -0.127758})
+(def manchester {:lat 53.480759, :lon -2.242631})
+
+;; The following tests again illustrate the implementation issues identified
+;; previously. Strangely, the distance from `:london` to `:manchester` is
+;; **different** from the distance from `:manchester` to `:london`.
+(itinerary {:from london :to manchester :transport :walking})
+(itinerary {:from manchester :to london :transport :driving :vehicle :sleta})
